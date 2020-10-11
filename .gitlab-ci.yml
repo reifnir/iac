@@ -1,5 +1,8 @@
 stages:
   - plan
+  - apply
+
+image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
 
 variables:
   TF_ROOT: ${CI_PROJECT_DIR}/azure
@@ -7,7 +10,6 @@ variables:
   
 plan:
   stage: plan
-  image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
   script:
     - export | grep TF_
     - cd ${TF_ROOT}
@@ -19,3 +21,12 @@ plan:
       - ${TF_ROOT}/plan.cache
     reports:
       terraform: ${TF_ROOT}/plan.json
+
+apply:
+  stage: apply
+  script:
+    - export | grep TF_
+    - cd ${TF_ROOT}
+    - gitlab-terraform apply
+  artifacts:
+    name: plan
