@@ -29,6 +29,7 @@ apply:
   script:
     - export | grep TF_
     - cd ${TF_ROOT}
+    - gitlab-terraform init
     - gitlab-terraform apply
   artifacts:
     name: plan
