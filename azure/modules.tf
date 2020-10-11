@@ -8,7 +8,7 @@ module "cluster" {
   aks_vm_node_size    = "Standard_B2s"
 
   aks_admin_username = var.aks_admin_username
-  aks_admin_ssh_key  = var.aks_admin_ssh_key
+  aks_admin_ssh_key_path  = var.aks_admin_ssh_key_path
 
   tags = local.tags
 }
