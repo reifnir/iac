@@ -11,7 +11,7 @@ variables:
 plan:
   stage: plan
   script:
-    - export | grep TF_
+    - export
     - cd ${TF_ROOT}
     - gitlab-terraform plan
     - gitlab-terraform plan-json
