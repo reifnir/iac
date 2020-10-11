@@ -7,13 +7,14 @@ image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
 variables:
   TF_ROOT: ${CI_PROJECT_DIR}/azure
   TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/prod
-  
+
 plan:
   stage: plan
   script:
     - export
     - cd ${TF_ROOT}
-    - terraform state list
+    - gitlab-terraform init
+    # - terraform state list
     - gitlab-terraform plan
     - gitlab-terraform plan-json
   artifacts:
