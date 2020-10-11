@@ -10,6 +10,7 @@ plan:
   image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
   script:
     - export | grep TF_
+    - cd ${TF_ROOT}
     - gitlab-terraform plan
     - gitlab-terraform plan-json
   artifacts:
