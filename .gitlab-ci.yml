@@ -13,6 +13,7 @@ plan:
   script:
     - export
     - cd ${TF_ROOT}
+    - terraform state list
     - gitlab-terraform plan
     - gitlab-terraform plan-json
   artifacts:
