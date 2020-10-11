@@ -1,4 +1,4 @@
-module "cluster" {
+module "aks" {
   source         = "./modules/aks"
   name           = "personal-aks"
   resource_group = azurerm_resource_group.cluster
