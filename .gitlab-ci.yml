@@ -12,3 +12,9 @@ plan:
     - export | grep TF_
     - gitlab-terraform plan
     - gitlab-terraform plan-json
+  artifacts:
+    name: plan
+    paths:
+      - ${TF_ROOT}/plan.cache
+    reports:
+      terraform: ${TF_ROOT}/plan.json
