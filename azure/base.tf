@@ -1,7 +1,7 @@
 terraform {
-  # backend "http" {
-  #   # Relies on environment variables for configuration
-  # }
+  backend "http" {
+    # Relies on environment variables for configuration
+  }
   required_providers {
     azuread = {
       version = "1.0.0"
