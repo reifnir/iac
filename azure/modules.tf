@@ -8,7 +8,7 @@ module "aks" {
   aks_vm_node_size    = "Standard_B2s"
 
   aks_admin_username = var.aks_admin_username
-  aks_admin_ssh_key_path  = var.aks_admin_ssh_key_path
+  aks_admin_public_key_path  = var.aks_admin_public_key_path
 
   tags = local.tags
 }
