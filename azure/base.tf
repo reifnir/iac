@@ -9,6 +9,10 @@ terraform {
     azurerm = {
       version = "~> 2.31"
     }
+    gitlab = {
+      source  = "gitlabhq/gitlab"
+      version = "~> 3.0"
+    }    
   }
 }
 
@@ -17,3 +21,7 @@ provider "azurerm" {
 }
 provider "azuread" {
 }
+
+provider "gitlab" {
+  token = "${var.gitlab_token}"
+} 
