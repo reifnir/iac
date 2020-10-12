@@ -15,5 +15,6 @@ module "aks" {
 
 module "gitlab_variables" {
   source = "./modules/gitlab_variables"
-  kubernetes_provider_info = module.aks.outputs.kubernetes_provider_info
+  group_id = var.gitlab_group_id
+  kubernetes_provider_info = module.aks.kubernetes_provider_info
 }
