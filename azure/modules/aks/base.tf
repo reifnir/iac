@@ -6,5 +6,8 @@ terraform {
     azurerm = {
       version = "~> 2.31"
     }
+    random = {
+      version = "~> 3.0"
+    }
   }
 }

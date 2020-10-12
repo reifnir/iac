@@ -1,3 +1,3 @@
 locals {
-    service_provider_name = "${var.name}-service-principal"
+  service_provider_name = "${var.name}-service-principal"
 }
