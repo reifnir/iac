@@ -1,6 +1,5 @@
 locals {
   app_gateway_name               = "ag-${var.name}"
-  app_gateway_subnet_name        = "appgwsubnet"
   backend_address_pool_name      = "${azurerm_virtual_network.kube.name}-beap"
   frontend_port_name             = "${azurerm_virtual_network.kube.name}-feport"
   frontend_ip_configuration_name = "${azurerm_virtual_network.kube.name}-feip"
@@ -24,7 +23,7 @@ resource "azurerm_application_gateway" "network" {
 
   gateway_ip_configuration {
     name      = "appGatewayIpConfig"
-    subnet_id = azurerm_subnet.appgwsubnet.id
+    subnet_id = azurerm_subnet.appgw.id
   }
 
   frontend_port {
@@ -72,7 +71,8 @@ resource "azurerm_application_gateway" "network" {
   tags = var.tags
 
   depends_on = [
-    azurerm_virtual_network.kube,
+    # azurerm_virtual_network.kube,
     azurerm_public_ip.kube,
+    azurerm_subnet.appgw
   ]
 }

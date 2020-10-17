@@ -1,6 +1,6 @@
 module "aks" {
   source         = "./modules/aks"
-  name           = "personal-aks"
+  name           = "aks-${local.name}"
   resource_group = azurerm_resource_group.cluster
 
   aks_cluster_version = "1.19.0"
@@ -13,8 +13,8 @@ module "aks" {
   tags = local.tags
 }
 
-module "gitlab_variables" {
-  source = "./modules/gitlab_variables"
-  group_id = var.gitlab_group_id
-  kubernetes_provider_info = module.aks.kubernetes_provider_info
-}
+# module "gitlab_variables" {
+#   source = "./modules/gitlab_variables"
+#   group_id = var.gitlab_group_id
+#   kubernetes_provider_info = module.aks.kubernetes_provider_info
+# }

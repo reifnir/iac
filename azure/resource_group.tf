@@ -1,4 +1,4 @@
 resource "azurerm_resource_group" "cluster" {
-  name     = "personal"
+  name     = "rg-${local.name}"
   location = "East US"
 }

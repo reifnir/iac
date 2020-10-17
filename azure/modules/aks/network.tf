@@ -9,7 +9,8 @@
 # }
 
 locals {
-  vnet_name = "vnet-${var.name}"
+  vnet_name               = "vnet-${var.name}"
+  app_gateway_subnet_name = "appgwsubnet"
 }
 
 resource "azurerm_virtual_network" "kube" {
@@ -18,15 +19,15 @@ resource "azurerm_virtual_network" "kube" {
   resource_group_name = var.resource_group.name
   address_space       = [var.virtual_network_address_prefix]
 
-  subnet {
-    name           = var.aks_subnet_name
-    address_prefix = var.aks_subnet_address_prefix # Kubernetes Subnet Address prefix
-  }
+  # subnet {
+  #   name           = var.aks_subnet_name
+  #   address_prefix = var.aks_subnet_address_prefix # Kubernetes Subnet Address prefix
+  # }
 
-  subnet {
-    name           = "appgwsubnet" # Has to be hardcoded to this name.
-    address_prefix = var.app_gateway_subnet_address_prefix
-  }
+  # subnet {
+  #   name           = local.app_gateway_subnet_name # Has to be hardcoded to this name.
+  #   address_prefix = var.app_gateway_subnet_address_prefix
+  # }
 
   tags = var.tags
 }
@@ -38,8 +39,8 @@ resource "azurerm_subnet" "kubesubnet" {
   address_prefixes     = [var.aks_subnet_address_prefix]
 }
 
-resource "azurerm_subnet" "appgwsubnet" {
-  name                 = "appgwsubnet" #Hardcoded to this name.
+resource "azurerm_subnet" "appgw" {
+  name                 = local.app_gateway_subnet_name #Hardcoded to this name.
   virtual_network_name = azurerm_virtual_network.kube.name
   resource_group_name  = var.resource_group.name
   address_prefixes     = [var.app_gateway_subnet_address_prefix]
@@ -47,11 +48,11 @@ resource "azurerm_subnet" "appgwsubnet" {
 
 # Public IP
 resource "azurerm_public_ip" "kube" {
-  name                         = "default_pip"
-  location                     = var.resource_group.location
-  resource_group_name          = var.resource_group.name
-  allocation_method            = "Static"
-  sku                          = "Standard"
+  name                = "default_pip"
+  location            = var.resource_group.location
+  resource_group_name = var.resource_group.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
 
   tags = var.tags
 }
