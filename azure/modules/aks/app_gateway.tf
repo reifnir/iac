@@ -24,7 +24,7 @@ resource "azurerm_application_gateway" "network" {
 
   gateway_ip_configuration {
     name      = "appGatewayIpConfig"
-    subnet_id = data.azurerm_subnet.appgwsubnet.id
+    subnet_id = azurerm_subnet.appgwsubnet.id
   }
 
   frontend_port {

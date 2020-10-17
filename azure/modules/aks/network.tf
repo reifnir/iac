@@ -31,21 +31,23 @@ resource "azurerm_virtual_network" "kube" {
   tags = var.tags
 }
 
-data "azurerm_subnet" "kubesubnet" {
+resource "azurerm_subnet" "kubesubnet" {
   name                 = var.aks_subnet_name
   virtual_network_name = azurerm_virtual_network.kube.name
   resource_group_name  = var.resource_group.name
+  address_prefixes     = [var.aks_subnet_address_prefix]
 }
 
-data "azurerm_subnet" "appgwsubnet" {
+resource "azurerm_subnet" "appgwsubnet" {
   name                 = "appgwsubnet" #Hardcoded to this name.
   virtual_network_name = azurerm_virtual_network.kube.name
   resource_group_name  = var.resource_group.name
+  address_prefixes     = [var.app_gateway_subnet_address_prefix]
 }
 
 # Public IP
 resource "azurerm_public_ip" "kube" {
-  name                         = "publicIp1"
+  name                         = "default_pip"
   location                     = var.resource_group.location
   resource_group_name          = var.resource_group.name
   allocation_method            = "Static"
