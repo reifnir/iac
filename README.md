@@ -6,10 +6,10 @@ Infrastructure-as-code repo
   * the tricky part was...
     * go into Azure Active Directory
     * search for the app id/guid of the sp
-    * App registrations: [the automation account]
+    * App registrations version of the sp's ID
     * API permissions
     * add a permission
-      * to to the Azure Active Directory Graph
+      * go to the Azure Active Directory Graph
         * Application.ReadWrite.OwnedBy
         * User.Read
 * Stand up AKS cluster
