@@ -13,3 +13,16 @@ output "kubernetes_provider_info" {
     cluster_ca_certificate_encoded = azurerm_kubernetes_cluster.aks.kube_config.0.cluster_ca_certificate
   }
 }
+
+locals {
+  egress_info = split("/", distinct(azurerm_kubernetes_cluster.aks.network_profile.0.load_balancer_profile.0.effective_outbound_ips).0)
+}
+
+data "azurerm_public_ip" "egress" {
+  name                = local.egress_info[length(local.egress_info) - 1]
+  resource_group_name = azurerm_kubernetes_cluster.aks.node_resource_group
+}
+
+output "egress_ip" {
+  value = data.azurerm_public_ip.egress.ip_address
+}
