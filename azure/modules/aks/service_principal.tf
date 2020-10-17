@@ -1,3 +1,7 @@
+locals {
+  service_provider_name = "sp-${var.name}"
+}
+
 data "azurerm_subscription" "current" {}
 
 resource "azuread_application" "sp" {
