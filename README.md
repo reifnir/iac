@@ -15,9 +15,9 @@ Infrastructure-as-code repo
 * Stand up AKS cluster
   * Cheapest single node cluster I could stand up
 * populate GitLab variable with necessary data to stand-up a kubernetes Terraform provider
+* add app gateway
 
 ## TODO
-* add app gateway
 * install app gateway ingress controller
 * setup automatic let's encrypt TLS cert updating
   * https://intelequia.com/blog/post/1012/automating-azure-application-gateway-ssl-certificate-renewals-with-let-s-encrypt-and-azure-automation

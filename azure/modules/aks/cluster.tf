@@ -28,9 +28,5 @@ resource "azurerm_kubernetes_cluster" "aks" {
     client_secret = azuread_service_principal_password.sp.value
   }
 
-  depends_on = [
-    azurerm_subnet.kubesubnet
-  ]
-
   tags = var.tags
 }

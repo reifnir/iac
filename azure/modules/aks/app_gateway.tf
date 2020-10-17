@@ -1,13 +1,24 @@
 locals {
   app_gateway_name               = "ag-${var.name}"
-  backend_address_pool_name      = "${azurerm_virtual_network.kube.name}-beap"
-  frontend_port_name             = "${azurerm_virtual_network.kube.name}-feport"
-  frontend_ip_configuration_name = "${azurerm_virtual_network.kube.name}-feip"
-  http_setting_name              = "${azurerm_virtual_network.kube.name}-be-htst"
-  listener_name                  = "${azurerm_virtual_network.kube.name}-httplstn"
-  request_routing_rule_name      = "${azurerm_virtual_network.kube.name}-rqrt"
+  backend_address_pool_name      = "${local.app_gateway_name}-beap"
+  frontend_port_name             = "${local.app_gateway_name}-feport"
+  frontend_ip_configuration_name = "${local.app_gateway_name}-feip"
+  http_setting_name              = "${local.app_gateway_name}-be-htst"
+  listener_name                  = "${local.app_gateway_name}-httplstn"
+  request_routing_rule_name      = "${local.app_gateway_name}-rqrt"
 
   #networkContributorRole         = "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '4d97b98b-1d4f-4787-a291-c67834d212e7')]"
+}
+
+# Public IP
+resource "azurerm_public_ip" "kube" {
+  name                = "default_pip"
+  location            = var.resource_group.location
+  resource_group_name = var.resource_group.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+
+  tags = var.tags
 }
 
 resource "azurerm_application_gateway" "network" {
@@ -23,7 +34,7 @@ resource "azurerm_application_gateway" "network" {
 
   gateway_ip_configuration {
     name      = "appGatewayIpConfig"
-    subnet_id = azurerm_subnet.appgw.id
+    subnet_id = var.app_gateway_subnet.id
   }
 
   frontend_port {
@@ -69,9 +80,4 @@ resource "azurerm_application_gateway" "network" {
   }
 
   tags = var.tags
-
-  depends_on = [
-    azurerm_public_ip.kube,
-    azurerm_subnet.appgw
-  ]
 }
