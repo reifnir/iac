@@ -1,3 +1,3 @@
-# output "cluster" {
-#   value = module.aks.cluster
-# }
+output "cluster" {
+  value = module.aks.cluster
+}

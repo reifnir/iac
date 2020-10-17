@@ -13,8 +13,8 @@ module "aks" {
   tags = local.tags
 }
 
-# module "gitlab_variables" {
-#   source = "./modules/gitlab_variables"
-#   group_id = var.gitlab_group_id
-#   kubernetes_provider_info = module.aks.kubernetes_provider_info
-# }
+module "gitlab_variables" {
+  source = "./modules/gitlab_variables"
+  group_id = var.gitlab_group_id
+  kubernetes_provider_info = module.aks.kubernetes_provider_info
+}

@@ -71,7 +71,6 @@ resource "azurerm_application_gateway" "network" {
   tags = var.tags
 
   depends_on = [
-    # azurerm_virtual_network.kube,
     azurerm_public_ip.kube,
     azurerm_subnet.appgw
   ]
