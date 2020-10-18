@@ -1,6 +1,10 @@
 # iac
 Infrastructure-as-code repo
 
+## Pre-requisites
+* Ensure that you enable the ingress controller add-on
+  1. https://docs.microsoft.com/en-us/azure/application-gateway/tutorial-ingress-controller-add-on-new
+
 ## Done
 * Manually create service principal used by GitLab CI and give just enough permission
   * the tricky part was...

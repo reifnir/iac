@@ -27,6 +27,10 @@ module "aks" {
   tags = local.tags
 }
 
+module "ingress" {
+  source = "./modules/ingress"
+}
+
 module "gitlab_variables" {
   source                   = "./modules/gitlab_variables"
   group_id                 = var.gitlab_group_id

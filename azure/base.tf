@@ -13,6 +13,9 @@ terraform {
       source  = "gitlabhq/gitlab"
       version = "~> 3.0"
     }
+    kubernetes = {
+      version = "~> 1.13"
+    }
     random = {
       version = "~> 3.0"
     }
