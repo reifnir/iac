@@ -15,11 +15,15 @@ output "kubernetes_provider_info" {
 }
 
 locals {
-  egress_info = split("/", distinct(azurerm_kubernetes_cluster.aks.network_profile.0.load_balancer_profile.0.effective_outbound_ips).0)
+  # Essentially, we're taking the GUID that trails the final forward slash character
+  # Don't comment what the code is already doing... unless there's regex :)
+  regex_guid_pattern = "[0-9a-f-]+$"
+  egress_pip_name = regex(local.regex_guid_pattern, tolist(azurerm_kubernetes_cluster.aks.network_profile.0.load_balancer_profile.0.effective_outbound_ips).0)
 }
 
+# TODO: add test that blows up when there is more than one outbound ip address (how would that happen?)
 data "azurerm_public_ip" "egress" {
-  name                = local.egress_info[length(local.egress_info) - 1]
+  name                = local.egress_pip_name
   resource_group_name = azurerm_kubernetes_cluster.aks.node_resource_group
 }
 
