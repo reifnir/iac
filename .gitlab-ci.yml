@@ -58,6 +58,7 @@ plan kubernetes:
   variables:
     TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
+    TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
 
 apply kubernetes:
   extends: .apply
@@ -66,6 +67,7 @@ apply kubernetes:
   variables:
     TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
+    TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
   dependencies:
     - plan kubernetes
 

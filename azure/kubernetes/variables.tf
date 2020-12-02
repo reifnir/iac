@@ -12,5 +12,9 @@ variable "gitlab_group_id" {
 
 variable "location" {
   description = "The default Azure Region"
-  default = "East US"
+  default     = "East US"
+}
+
+variable "foundation_state_address" {
+  description = "URL where the foundation terraform backend can be found"
 }
