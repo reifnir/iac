@@ -58,6 +58,10 @@ resource "azurerm_dns_mx_record" "google_apps" {
   tags = local.tags
 }
 
-output "reifnir_com" {
-  value = azurerm_dns_zone.reifnir_com
+output "dns_zone_reifnir_com" {
+  value = azurerm_dns_zone.reifnir_com.id
 }
+
+# output "debugging" {
+#   value = azurerm_dns_zone.reifnir_com
+# }
