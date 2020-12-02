@@ -1,8 +1,8 @@
 stages:
-  - foundation:plan
-  - foundation:apply
-  - kubernetes:plan
-  - kubernetes:apply
+  - plan foundation
+  - apply foundation
+  - plan kubernetes
+  - apply kubernetes
 
 image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
 
@@ -33,39 +33,39 @@ variables:
   only:
     - main
 
-foundation:plan:
+plan foundation:
   extends: .plan
-  stage: foundation:plan
+  stage: plan foundation
   resource_group: foundation
   variables:
     TF_ROOT: ${CI_PROJECT_DIR}/azure/foundation
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
 
-foundation:apply:
+apply foundation:
   extends: .apply
-  stage: foundation:apply
+  stage: apply foundation
   resource_group: foundation
   variables:
     TF_ROOT: ${CI_PROJECT_DIR}/azure/foundation
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
   dependencies:
-    - foundation:plan
+    - plan foundation
 
-kubernetes:plan:
+plan kubernetes:
   extends: .plan
-  stage: kubernetes:plan
+  stage: plan kubernetes
   resource_group: kubernetes
   variables:
     TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
 
-kubernetes:apply:
+apply kubernetes:
   extends: .apply
-  stage: kubernetes:apply
+  stage: apply kubernetes
   resource_group: kubernetes
   variables:
     TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
   dependencies:
-    - kubernetes:plan
+    - plan kubernetes
 
