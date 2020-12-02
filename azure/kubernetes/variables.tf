@@ -9,3 +9,8 @@ variable "aks_admin_public_key_path" {
 variable "gitlab_group_id" {
   description = "Group ID that GitLab variables will be saved to"
 }
+
+variable "location" {
+  description = "The default Azure Region"
+  default = "East US"
+}
