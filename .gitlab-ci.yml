@@ -33,7 +33,7 @@ variables:
   only:
     - main
 
-plan-foundation:
+foundation:plan:
   extends: .plan
   stage: foundation:plan
   variables:
@@ -41,7 +41,7 @@ plan-foundation:
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
   
 
-apply-foundation:
+foundation:apply:
   extends: .apply
   stage: foundation:apply
   variables:
@@ -50,7 +50,7 @@ apply-foundation:
   dependencies:
     - plan-foundation
 
-plan-kubernetes:
+kubernetes:plan:
   extends: .plan
   stage: kubernetes:plan
   variables:
@@ -58,7 +58,7 @@ plan-kubernetes:
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
   
 
-apply-kubernetes:
+kubernetes:apply:
   extends: .apply
   stage: kubernetes:apply
   variables:
