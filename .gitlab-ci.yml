@@ -1,6 +1,8 @@
 stages:
-  - plan
-  - apply
+  - foundation:plan
+  - foundation:apply
+  - kubernetes:plan
+  - kubernetes:apply
 
 image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
 
@@ -8,7 +10,6 @@ variables:
   TF_PASSWORD: ${GITLAB_TOKEN}
 
 .plan:
-  stage: plan
   script:
     - cd ${TF_ROOT}
     - gitlab-terraform init
@@ -22,7 +23,6 @@ variables:
       terraform: ${TF_ROOT}/plan.json
 
 .apply:
-  stage: apply
   script:
     - export | grep TF_
     - cd ${TF_ROOT}
@@ -35,13 +35,18 @@ variables:
 
 plan-kubernetes:
   extends: .plan
-variables:
-  TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
-  TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
+  stage: kubernetes:plan
+  variables:
+    TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
+    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
+  
 
 apply-kubernetes:
   extends: .apply
-variables:
-  TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
-  TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
+  stage: kubernetes:apply
+  variables:
+    TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
+    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
+  dependencies:
+    - plan-kubernetes
 
