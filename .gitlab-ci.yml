@@ -40,6 +40,7 @@ plan foundation:
   variables:
     TF_ROOT: ${CI_PROJECT_DIR}/azure/foundation
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
+    TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_PRO
 
 apply foundation:
   extends: .apply
@@ -48,6 +49,7 @@ apply foundation:
   variables:
     TF_ROOT: ${CI_PROJECT_DIR}/azure/foundation
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
+    TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_PRO
   dependencies:
     - plan foundation
 
@@ -58,6 +60,7 @@ plan kubernetes:
   variables:
     TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
+    TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_ENTERPRISE_2
     TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
 
 apply kubernetes:
@@ -67,6 +70,7 @@ apply kubernetes:
   variables:
     TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
+    TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_ENTERPRISE_2
     TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
   dependencies:
     - plan kubernetes
