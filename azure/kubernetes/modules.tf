@@ -24,6 +24,10 @@ module "aks" {
   worker_subnet      = module.networking.worker_subnet
   app_gateway_subnet = module.networking.app_gateway_subnet
 
+  # Ingress (We don't need autoscaling and we don't want to pay 8x as much for the app gateway)
+  app_gateway_sku  = "Standard_Small"
+  app_gateway_tier = "Standard"
+
   tags = local.tags
 }
 

@@ -28,7 +28,7 @@ resource "azurerm_application_gateway" "network" {
 
   sku {
     name     = var.app_gateway_sku
-    tier     = "Standard_v2"
+    tier     = var.app_gateway_tier
     capacity = 2
   }
 
