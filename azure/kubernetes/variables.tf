@@ -18,3 +18,7 @@ variable "location" {
 variable "foundation_state_address" {
   description = "URL where the foundation terraform backend can be found"
 }
+
+variable "azure_subscription" {
+  description = "Azure Subscription GUID where all resources will reside"
+}
