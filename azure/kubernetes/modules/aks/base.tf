@@ -1,13 +1,13 @@
 terraform {
   required_providers {
     azuread = {
-      version = "1.0.0"
+      version = "~> 1"
     }
     azurerm = {
-      version = "~> 2.31"
+      version = "~> 2"
     }
     random = {
-      version = "~> 3.0"
+      version = "~> 3"
     }
   }
 }
