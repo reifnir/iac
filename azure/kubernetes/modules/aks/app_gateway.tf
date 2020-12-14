@@ -6,6 +6,9 @@ locals {
   http_setting_name              = "${local.app_gateway_name}-be-htst"
   listener_name                  = "${local.app_gateway_name}-httplstn"
   request_routing_rule_name      = "${local.app_gateway_name}-rqrt"
+  # Yes, the Standard App Gateway SKU requires a Basic PIP SKU
+  public_ip_sku                  = var.app_gateway_tier == "Standard" ? "Basic" : "Standard"
+  public_ip_allocation_method    = var.app_gateway_tier == "Standard" ? "Dynamic" : "Static"
 
   #networkContributorRole         = "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '4d97b98b-1d4f-4787-a291-c67834d212e7')]"
 }
@@ -15,8 +18,8 @@ resource "azurerm_public_ip" "kube" {
   name                = "default_pip"
   location            = var.resource_group.location
   resource_group_name = var.resource_group.name
-  allocation_method   = "Static"
-  sku                 = "Standard"
+  allocation_method   = local.public_ip_allocation_method
+  sku                 = local.public_ip_sku
 
   tags = var.tags
 }
