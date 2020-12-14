@@ -23,7 +23,7 @@ variable "aks_subnet_address_prefix" {
 
 variable "app_gateway_subnet_address_prefix" {
   description = "Containers DNS server IP address."
-  default     = "10.1.0.0/16"
+  default     = "10.1.0.0/24"
 }
 
 variable "aks_subnet_name" {
