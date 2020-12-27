@@ -24,8 +24,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   service_principal {
-    client_id     = azuread_application.sp.application_id
-    client_secret = azuread_service_principal_password.sp.value
+    client_id     = azuread_application.sp_cluster.application_id
+    client_secret = azuread_service_principal_password.sp_cluster.value
   }
 
   tags = var.tags
