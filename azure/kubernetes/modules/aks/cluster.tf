@@ -6,9 +6,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
   kubernetes_version  = var.aks_cluster_version
 
   default_node_pool {
-    name       = "default"
-    node_count = var.aks_node_count
-    vm_size    = var.aks_vm_node_size
+    name           = "default"
+    node_count     = var.aks_node_count
+    vm_size        = var.aks_vm_node_size
+    vnet_subnet_id = var.worker_subnet.id
   }
 
   role_based_access_control {
@@ -26,6 +27,13 @@ resource "azurerm_kubernetes_cluster" "aks" {
   service_principal {
     client_id     = var.aks_service_principal_app_id
     client_secret = var.aks_service_principal_client_secret
+  }
+
+  # Using AAD pod identities with the default Kubenet network plugin has a bunch of issues. It's all taken care of with the azure plugin
+  # https://azure.github.io/aad-pod-identity/docs/configure/aad_pod_identity_on_kubenet/
+  network_profile {
+    network_plugin = "azure"
+    network_policy = "azure"
   }
 
   tags = var.tags

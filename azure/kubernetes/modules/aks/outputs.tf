@@ -25,6 +25,9 @@ locals {
 data "azurerm_public_ip" "egress" {
   name                = local.egress_pip_name
   resource_group_name = azurerm_kubernetes_cluster.aks.node_resource_group
+
+  # don't get cute, need to wait for the cluster to exist or the data will point to nothing
+  depends_on          = [azurerm_kubernetes_cluster.aks]
 }
 
 output "egress_ip" {
