@@ -14,15 +14,26 @@ module "aks" {
   # Cluster config
   aks_cluster_version = "1.19.3"
   # Having only one node isn't a great idea, but trying to keep costs under $150 for now
-  aks_node_count      = 1
-  aks_vm_node_size    = "Standard_B2s"
+  aks_node_count   = 1
+  aks_vm_node_size = "Standard_B2s"
 
   # Linux VM config
   aks_admin_username        = var.aks_admin_username
   aks_admin_public_key_path = var.aks_admin_public_key_path
 
   # Networking
-  worker_subnet      = module.networking.worker_subnet
+  worker_subnet = module.networking.worker_subnet
+
+  tags = local.tags
+}
+
+module "ingress" {
+  # Cluster metadata
+  source         = "./modules/ingress"
+  name           = local.name
+  resource_group = azurerm_resource_group.cluster
+
+  # Networking
   app_gateway_subnet = module.networking.app_gateway_subnet
 
   # Ingress (We don't need autoscaling and we don't want to pay 8x as much for the app gateway)
@@ -30,10 +41,6 @@ module "aks" {
   app_gateway_tier = "Standard"
 
   tags = local.tags
-}
-
-module "ingress" {
-  source = "./modules/ingress"
 }
 
 module "gitlab_variables" {
