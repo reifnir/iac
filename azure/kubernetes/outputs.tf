@@ -1,6 +1,7 @@
-# output "cluster" {
-#   value = module.aks.cluster
-# }
+output "ingress_ip" {
+  description = "Public IP address of the app gateway"
+  value = module.ingress.ingress_ip
+}
 
 output "egress_ip" {
   value = module.aks.egress_ip
