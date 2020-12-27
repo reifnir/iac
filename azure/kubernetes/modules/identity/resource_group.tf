@@ -9,7 +9,7 @@ resource "azurerm_user_assigned_identity" "cluster_rg" {
 }
 
 data "azurerm_virtual_network" "cluster" {
-  name           = var.cluster_vnet_name
+  name                = var.cluster_vnet_name
   resource_group_name = var.resource_group.name
 }
 

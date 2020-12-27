@@ -1,6 +1,6 @@
 output "ingress_ip" {
   description = "Public IP address of the app gateway"
-  value = module.ingress.ingress_ip
+  value       = module.ingress.ingress_ip
 }
 
 output "egress_ip" {

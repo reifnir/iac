@@ -7,8 +7,8 @@ locals {
   listener_name                  = "${local.app_gateway_name}-httplstn"
   request_routing_rule_name      = "${local.app_gateway_name}-rqrt"
   # Yes, the Standard App Gateway SKU requires a Basic PIP SKU
-  public_ip_sku                  = var.app_gateway_tier == "Standard" ? "Basic" : "Standard"
-  public_ip_allocation_method    = var.app_gateway_tier == "Standard" ? "Dynamic" : "Static"
+  public_ip_sku               = var.app_gateway_tier == "Standard" ? "Basic" : "Standard"
+  public_ip_allocation_method = var.app_gateway_tier == "Standard" ? "Dynamic" : "Static"
 
   #networkContributorRole         = "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '4d97b98b-1d4f-4787-a291-c67834d212e7')]"
 }

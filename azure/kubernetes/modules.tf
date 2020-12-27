@@ -14,8 +14,8 @@ module "identity" {
   worker_subnet_id  = module.networking.worker_subnet.id
 
   # Terraform threw an error without this hint to wait for the RG to be created
-  depends_on = [ azurerm_resource_group.cluster ]
-  tags = local.tags
+  depends_on = [azurerm_resource_group.cluster]
+  tags       = local.tags
 
 }
 
