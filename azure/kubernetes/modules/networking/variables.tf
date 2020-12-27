@@ -21,9 +21,11 @@ variable "aks_subnet_address_prefix" {
   default     = "10.0.0.0/16"
 }
 
+# Ingress Controller leverages the AKS’ advanced networking, which allocates an IP address for each pod from the subnet shared with Application Gateway.
+# (Better have more than 250ish!)
 variable "app_gateway_subnet_address_prefix" {
   description = "Containers DNS server IP address."
-  default     = "10.1.0.0/24"
+  default     = "10.1.0.0/16"
 }
 
 variable "aks_subnet_name" {
