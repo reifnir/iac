@@ -13,7 +13,7 @@ module "aks" {
 
   # Cluster config
   aks_cluster_version = "1.19.3"
-  aks_node_count      = 2
+  aks_node_count      = 1
   aks_vm_node_size    = "Standard_B2s"
 
   # Linux VM config
