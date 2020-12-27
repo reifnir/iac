@@ -5,3 +5,5 @@ terraform {
     }
   }
 }
+
+data "azurerm_subscription" "current" {}
