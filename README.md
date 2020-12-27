@@ -35,6 +35,7 @@ Infrastructure-as-code repo
 * deploy 
 * deploy gitlab runner pod for faster builds
 * finally get backing up to stoic meditations podcast
+* azurerm_role_assignment.cluster_sp_contributor scope is contrib at the entire subscription, look for ways to make that more-reasonable
 
 ## Longer term
 * The app registration's password expired in 2 years, automate cycling or find alternative
