@@ -30,3 +30,5 @@ override.tf.json
 
 # direnv configuration file (secrets)
 .envrc
+
+.temp
