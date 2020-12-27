@@ -13,6 +13,7 @@ module "aks" {
 
   # Cluster config
   aks_cluster_version = "1.19.3"
+  # Having only one node isn't a great idea, but trying to keep costs under $150 for now
   aks_node_count      = 1
   aks_vm_node_size    = "Standard_B2s"
 
