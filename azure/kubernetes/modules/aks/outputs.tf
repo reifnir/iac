@@ -2,6 +2,11 @@ output "cluster" {
   value = azurerm_kubernetes_cluster.aks
 }
 
+output "kube_config_admin" {
+  description = "Raw output of a kube config profile with admin privileges"
+  value = azurerm_kubernetes_cluster.aks.kube_config_raw
+}
+
 # Information needed in order for other modules to initialize a kubernetes provider
 output "kubernetes_provider_info" {
   value = {
@@ -33,3 +38,4 @@ data "azurerm_public_ip" "egress" {
 output "egress_ip" {
   value = data.azurerm_public_ip.egress.ip_address
 }
+

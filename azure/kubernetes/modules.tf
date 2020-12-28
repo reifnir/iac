@@ -67,4 +67,5 @@ module "gitlab_variables" {
   source                   = "./modules/gitlab_variables"
   group_id                 = var.gitlab_group_id
   kubernetes_provider_info = module.aks.kubernetes_provider_info
+  kube_config_admin        = module.aks.kube_config_admin
 }
