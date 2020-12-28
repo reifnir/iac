@@ -5,7 +5,7 @@ echo "Setting paths..."
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 TEMP_DIR="$SCRIPT_DIR/../.temp"
 YAML_FILE="$TEMP_DIR/aad-pod-identity.yaml"
-HCL_FILE="$SCRIPT_DIR/../azure/kubernetes/modules/ingress/aad-pod-identity.tf"
+HCL_FILE="$SCRIPT_DIR/../azure/post-cluster-setup/aad-pod-identity.tf"
 
 echo "Creating temp directory..."
 rm -rf "$TEMP_DIR"
@@ -32,6 +32,7 @@ cat > "$HCL_FILE" <<EOF
 
 resource "kubernetes_manifest_hcl" "aad_pod_identity" {
   manifest = $HCL_CONTENT
+
 } 
 EOF
 
