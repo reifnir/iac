@@ -30,7 +30,9 @@ cat > "$HCL_FILE" <<EOF
 # Instead execute ./scripts/generate-aad-pod-identity-hcl.sh
 # ==========================================================
 
-resource "kubernetes_manifest_hcl" "aad_pod_identity" {
+resource "kubernetes_manifest" "aad_pod_identity" {
+  provider = kubernetes-alpha
+
   manifest = $HCL_CONTENT
 
 } 
