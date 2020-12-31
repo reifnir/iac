@@ -3,6 +3,7 @@ stages:
   - apply foundation
   - plan kubernetes
   - apply kubernetes
+  - post kubernetes setup
 
 image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
 
@@ -27,7 +28,7 @@ variables:
     - export | grep TF_
     - cd ${TF_ROOT}
     - gitlab-terraform init
-    - gitlab-terraform apply
+    - time gitlab-terraform apply
   artifacts:
     name: plan
   only:
@@ -75,3 +76,13 @@ apply kubernetes:
   dependencies:
     - plan kubernetes
 
+post kubernetes setup:
+  image: microsoft/azure-cli:latest
+  stage: post kubernetes setup
+  resource_group: post kubernetes setup
+  script:
+    - apk add curl
+    - echo "Installing kubectl..."
+    - curl -Lo /usr/bin/kubectl "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+    - chmod +x /usr/bin/kubectl
+    - ${CI_PROJECT_DIR}/scripts/install-aad-pod-identity-yaml.sh
