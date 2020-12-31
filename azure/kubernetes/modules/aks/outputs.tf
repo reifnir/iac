@@ -4,7 +4,7 @@ output "cluster" {
 
 output "kube_config_admin" {
   description = "Raw output of a kube config profile with admin privileges"
-  value = azurerm_kubernetes_cluster.aks.kube_config_raw
+  value       = azurerm_kubernetes_cluster.aks.kube_config_raw
 }
 
 # Information needed in order for other modules to initialize a kubernetes provider
@@ -32,7 +32,7 @@ data "azurerm_public_ip" "egress" {
   resource_group_name = azurerm_kubernetes_cluster.aks.node_resource_group
 
   # don't get cute, need to wait for the cluster to exist or the data will point to nothing
-  depends_on          = [azurerm_kubernetes_cluster.aks]
+  depends_on = [azurerm_kubernetes_cluster.aks]
 }
 
 output "egress_ip" {

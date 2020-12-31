@@ -21,9 +21,10 @@ module "identity" {
 
 module "aks" {
   # Cluster metadata
-  source         = "./modules/aks"
-  name           = local.name
-  resource_group = azurerm_resource_group.cluster
+  source           = "./modules/aks"
+  name             = local.name
+  resource_group   = azurerm_resource_group.cluster
+  admin_object_ids = var.cluster_admin_object_ids
 
   # Cluster config
   aks_cluster_version = "1.19.3"
