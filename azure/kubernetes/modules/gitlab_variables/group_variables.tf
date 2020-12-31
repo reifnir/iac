@@ -9,7 +9,7 @@ resource "gitlab_group_variable" "kubernetes_provider_info" {
 
 resource "gitlab_group_variable" "kube_config_admin" {
   group         = data.gitlab_group.all_projects.id
-  key           = "TF_VAR_kube_config_admin"
+  key           = "KUBE_CONFIG_ADMIN_PATH"
   variable_type = "file"
   value         = var.kube_config_admin
   protected     = false
