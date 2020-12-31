@@ -13,6 +13,11 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   role_based_access_control {
+    azure_active_directory {
+      managed = true
+      # tenant_id only nessary when overriding current tenant ID
+      admin_group_object_ids = split(",", var.admin_object_ids)
+    }
     enabled = true
   }
 
@@ -34,6 +39,12 @@ resource "azurerm_kubernetes_cluster" "aks" {
   network_profile {
     network_plugin = "azure"
     network_policy = "azure"
+  }
+
+  addon_profile {
+    kube_dashboard {
+      enabled = true
+    }
   }
 
   tags = var.tags

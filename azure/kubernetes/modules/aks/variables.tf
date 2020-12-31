@@ -45,3 +45,7 @@ variable "aks_service_principal_object_id" {
 variable "tags" {
   description = "Tags to be applied to resources related to the swarm"
 }
+
+variable "admin_object_ids" {
+  description = "A comma separated (no spaces) list of Azure Active Directory Object IDs that have admin rights on the cluster."
+}

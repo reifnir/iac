@@ -22,3 +22,7 @@ variable "foundation_state_address" {
 variable "azure_subscription" {
   description = "Azure Subscription GUID where all resources will reside"
 }
+
+variable "cluster_admin_object_ids" {
+  description = "A comma separated (no spaces) list of Azure Active Directory Object IDs that have admin rights on the cluster."
+}
