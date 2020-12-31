@@ -81,8 +81,9 @@ post kubernetes setup:
   stage: post kubernetes setup
   resource_group: post kubernetes setup
   script:
+    - set -x
     - apk add curl
     - echo "Installing kubectl..."
     - curl -Lo /usr/bin/kubectl "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
     - chmod +x /usr/bin/kubectl
-    - ${CI_PROJECT_DIR}/scripts/install-aad-pod-identity-yaml.sh
+    - ${CI_PROJECT_DIR}/scripts/install-aad-pod-identity.sh
