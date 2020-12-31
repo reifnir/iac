@@ -27,9 +27,13 @@ module "aks" {
 
   # Cluster config
   aks_cluster_version = "1.19.3"
-  # Having only one node isn't a great idea, but trying to keep costs under $150 for now
-  aks_node_count   = 1
-  aks_vm_node_size = "Standard_B2s"
+  # Having only one node isn't a great idea, but trying to keep costs under $150 for now. This is the cheapest option for now
+  # aks_node_count   = 1
+  # aks_vm_node_size = "Standard_B2s"
+
+  aks_node_count   = 2
+  aks_vm_node_size = "Standard_A8_v2"
+
 
   # Identity
   aks_service_principal_app_id        = module.identity.aks_service_principal_app_id
