@@ -57,8 +57,8 @@ module "ingress" {
   app_gateway_subnet = module.networking.app_gateway_subnet
 
   # Ingress (We don't need autoscaling and we don't want to pay 8x as much for the app gateway)
-  app_gateway_sku  = "Standard_Small"
-  app_gateway_tier = "Standard"
+  app_gateway_sku  = "Standard_v2"
+  app_gateway_tier = "WAF_v2"
 
   tags = local.tags
 }
