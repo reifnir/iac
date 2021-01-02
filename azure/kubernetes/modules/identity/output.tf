@@ -7,7 +7,7 @@ output "aks_service_principal_client_secret" {
   description = "Secret of the service principal. Used by AKS to manage Azure."
   value       = azuread_service_principal_password.cluster_sp.value
   # Seems redundant, but without this sometimes a wrong or incomplete client secret is returned (retry would work)
-  depends_on = [azuread_service_principal_password.cluster_sp]
+  depends_on = [azurerm_role_assignment.cluster_sp_contributor]
 }
 
 output "aks_service_principal_object_id" {

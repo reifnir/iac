@@ -23,4 +23,9 @@ resource "azurerm_role_assignment" "cluster_sp_contributor" {
   scope                = data.azurerm_subscription.current.id
   role_definition_name = "Contributor"
   principal_id         = azuread_service_principal.cluster_sp.id
+
+  // Waiting for AAD global replication
+  provisioner "local-exec" {
+    command = "$set -ex && {path.module}/../../../scripts/wait-for-service-principal-contributor-role-to-propagate.sh ${azuread_service_principal.cluster_sp.id}"
+  }
 }
