@@ -1,15 +1,20 @@
 resource "azurerm_kubernetes_cluster" "aks" {
-  name                = var.name
-  location            = var.resource_group.location
-  resource_group_name = var.resource_group.name
-  dns_prefix          = var.name
-  kubernetes_version  = var.aks_cluster_version
+  name                            = var.name
+  location                        = var.resource_group.location
+  resource_group_name             = var.resource_group.name
+  dns_prefix                      = var.name
+  kubernetes_version              = var.aks_cluster_version
+  api_server_authorized_ip_ranges = []
 
   default_node_pool {
-    name           = "default"
-    node_count     = var.aks_node_count
-    vm_size        = var.aks_vm_node_size
-    vnet_subnet_id = var.worker_subnet.id
+    name               = "default"
+    node_count         = var.aks_node_count
+    vm_size            = var.aks_vm_node_size
+    vnet_subnet_id     = var.worker_subnet.id
+    availability_zones = []
+    node_labels        = {}
+    node_taints        = []
+    tags               = var.tags
   }
 
   role_based_access_control {
