@@ -1,5 +1,9 @@
 #!/bin/bash
-set -e
+set -ex
+# Debugging is harder than it seems it should be
+# docker run -v "$(pwd):/src" -it microsoft/azure-cli:latest
+# cd /src && apk add nano curl && curl -Lo /usr/bin/kubectl "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" && chmod +x /usr/bin/kubectl && export KUBE_CONFIG_ADMIN_PATH="/src/.temp/kube-config-admin"
+
 
 function wait-for-daemonset {
   DAEMONSET="$1"

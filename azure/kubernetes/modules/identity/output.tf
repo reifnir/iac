@@ -15,7 +15,7 @@ output "aks_service_principal_object_id" {
   value       = azuread_service_principal.cluster_sp.id
 }
 
-output "resource_group_principal_id" {
+output "resource_group_identity" {
   description = "Service principal id that is associated with the resource group"
-  value       = azurerm_user_assigned_identity.cluster_rg.principal_id
+  value       = azurerm_user_assigned_identity.cluster_rg
 }

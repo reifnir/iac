@@ -6,8 +6,8 @@ variable "resource_group" {
   description = "Resource group in which all resources will be located"
 }
 
-variable "resource_group_principal_id" {
-  description = "Service principal id that is associated with the resource group"
+variable "resource_group_identity" {
+  description = "Service principal that is associated with the resource group"
 }
 
 # As 12/13/2020, Standard_v2 is 8x the cost of Standard_Small per gateway-hour

@@ -1,4 +1,9 @@
 #!/bin/bash
+set -e
+
+# echo "whoami?"
+# az ad signed-in-user show
+
 SP_OBJECT_ID="$1"
 echo "Waiting for to 60 seconds for service principal with object id of '$SP_OBJECT_ID' 'Contributor' permissions to propagate..."
 
@@ -11,6 +16,12 @@ while [[ $RETRIES -ge 0 ]];do
     echo "  Role assignment exists. Moving on."
     break
   fi
+
+  if [ "$RETRIES" == "0" ]
+  then
+    echo "  Exiting with failure. Role assignment not yet found."
+  fi
+
   ((RETRIES--))
   sleep 3
 done

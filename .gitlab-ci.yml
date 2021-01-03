@@ -3,7 +3,8 @@ stages:
   - apply foundation
   - plan kubernetes
   - apply kubernetes
-  - post kubernetes setup
+  - aad pod identity setup
+  - install app gateway ingress controller
 
 image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
 
@@ -76,9 +77,9 @@ apply kubernetes:
   dependencies:
     - plan kubernetes
 
-post kubernetes setup:
+aad pod identity setup:
   image: microsoft/azure-cli:latest
-  stage: post kubernetes setup
+  stage: aad pod identity setup
   resource_group: post kubernetes setup
   script:
     - set -x
@@ -87,3 +88,25 @@ post kubernetes setup:
     - curl -Lo /usr/bin/kubectl "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
     - chmod +x /usr/bin/kubectl
     - ${CI_PROJECT_DIR}/scripts/install-aad-pod-identity.sh
+
+install app gateway ingress controller:
+  image: debian:latest
+  stage: install app gateway ingress controller
+  resource_group: post kubernetes setup
+  variables:
+    TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
+    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
+    TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_ENTERPRISE_1
+    TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
+  script:
+    - apk add bash curl jq
+    - gitlab-terraform init
+    - SUBSCRIPTION_ID="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.subscriptionId' -r)"
+    - RESOURCE_GROUP="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.resource_group' -r)"
+    - APP_GATEWAY_NAME="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.app_gateway_name' -r)"
+    # azurerm_user_assigned_identity.testIdentity.id
+    - IDENTITY_RESOURCE_ID="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.identity_resource_id' -r)"
+    # azurerm_user_assigned_identity.testIdentity.client_id
+    - IDENTITY_CLIENT_ID="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.identity_client_id' -r)"
+    - export # Debugging
+    - ${CI_PROJECT_DIR}/scripts/install-alpine-helm-3.sh

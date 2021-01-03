@@ -26,6 +26,6 @@ resource "azurerm_role_assignment" "cluster_sp_contributor" {
 
   // Waiting for AAD global replication
   provisioner "local-exec" {
-    command = "$set -ex && {path.module}/../../../scripts/wait-for-service-principal-contributor-role-to-propagate.sh ${azuread_service_principal.cluster_sp.id}"
+    command = "${path.module}/../../../../scripts/wait-for-service-principal-contributor-role-to-propagate.sh ${azuread_service_principal.cluster_sp.id}"
   }
 }
