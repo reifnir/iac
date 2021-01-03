@@ -10,7 +10,7 @@ output "egress_ip" {
 
 output "app_gateway_ingress_controller_info" {
   description = "Contains all variable information needed for configuring AGIC helm package"
-  value = module.ingress.app_gateway_ingress_controller_info
+  value       = module.ingress.app_gateway_ingress_controller_info
 }
 
 # Don't leave this in. It's just for debugging...

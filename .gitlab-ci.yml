@@ -83,11 +83,6 @@ aad pod identity setup:
   resource_group: post kubernetes setup
   script:
     - set -x
-    - echo "Installing terraform..."
-    - TF_CURRENT_VERSION="$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq '.current_version' -r)"
-    - curl -s "https://releases.hashicorp.com/terraform/${TF_CURRENT_VERSION}/terraform_${TF_CURRENT_VERSION}_linux_amd64.zip" -o /tmp/tf.zip
-    - unzip /tmp/tf.zip -d /usr/local/bin
-    - chmod +x /usr/local/bin/terraform
 
     - echo "Installing kubectl..."
     - curl -Lo /usr/bin/kubectl "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"

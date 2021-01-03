@@ -53,9 +53,9 @@ module "aks" {
 
 module "ingress" {
   # Cluster metadata
-  source                      = "./modules/ingress"
-  name                        = local.name
-  resource_group              = azurerm_resource_group.cluster
+  source                  = "./modules/ingress"
+  name                    = local.name
+  resource_group          = azurerm_resource_group.cluster
   resource_group_identity = module.identity.resource_group_identity
 
   # Networking

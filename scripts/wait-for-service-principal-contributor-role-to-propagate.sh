@@ -4,7 +4,6 @@ set -e
 # echo "whoami?"
 # az ad signed-in-user show
 
-SP_OBJECT_ID="$1"
 echo "Waiting for to 60 seconds for service principal with object id of '$SP_OBJECT_ID' 'Contributor' permissions to propagate..."
 
 RETRIES=20
