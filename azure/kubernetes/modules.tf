@@ -28,7 +28,7 @@ module "aks" {
 
   # Cluster config
   aks_cluster_version = "1.19.3"
-  # Having only one node isn't a great idea, but trying to keep costs under $150 for now. This is the cheapest option for now
+  # Having only one node isn't a great idea, but trying to keep costs under $150. This is the cheapest option for now
   # aks_node_count   = 1
   # aks_vm_node_size = "Standard_B2s"
 
@@ -56,7 +56,7 @@ module "ingress" {
   source                      = "./modules/ingress"
   name                        = local.name
   resource_group              = azurerm_resource_group.cluster
-  resource_group_principal_id = module.identity.resource_group_principal_id
+  resource_group_identity = module.identity.resource_group_identity
 
   # Networking
   app_gateway_subnet = module.networking.app_gateway_subnet
