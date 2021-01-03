@@ -28,6 +28,6 @@ resource "azurerm_role_assignment" "cluster_sp_contributor" {
   provisioner "local-exec" {
     # Assumes bash is already installed and running on alpine linux
     command     = "${path.module}/../../../../scripts/wait-for-service-principal-contributor-role-to-propagate.sh ${azuread_service_principal.cluster_sp.id}"
-    interpreter = "/bin/bash"
+    interpreter = ["/bin/bash", "-e"]
   }
 }
