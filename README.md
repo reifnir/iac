@@ -20,9 +20,11 @@ Infrastructure-as-code repo
   * Cheapest single node cluster I could stand up
 * populate GitLab variable with necessary data to stand-up a kubernetes Terraform provider
 * add app gateway
+* install app gateway ingress controller <-- that was needlessly complicated!
+  * https://docs.microsoft.com/en-us/azure/developer/terraform/create-k8s-cluster-with-aks-applicationgateway-ingress
+  * Will be simpler when AGIC add-on for AKS leaves preview. By a lot.
 
 ## TODO
-* install app gateway ingress controller
 * setup automatic let's encrypt TLS cert updating
   * https://intelequia.com/blog/post/1012/automating-azure-application-gateway-ssl-certificate-renewals-with-let-s-encrypt-and-azure-automation
 * deploy a hello-world site
