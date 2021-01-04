@@ -146,6 +146,9 @@ tear down the cluster:
     TF_VAR_kubernetes_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
   script:
     # Don't do this as a YAML variable or the variable gets filled with the contents, not a path to a file containing them
+    - apk add bash curl
+    - /bin/bash
+    - set -ex
     - export KUBECONFIG="$KUBE_CONFIG_ADMIN_PATH"
     - export TF_ROOT="${CI_PROJECT_DIR}/azure/test-site"
     - export TF_ADDRESS="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-test-site"
