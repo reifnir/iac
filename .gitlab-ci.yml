@@ -99,6 +99,9 @@ install app gateway ingress controller:
   script:
     - apk add bash curl jq
     - gitlab-terraform init
+    - terraform output
+    - /bin/bash
+    - terraform output
     - SUBSCRIPTION_ID="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.subscriptionId' -r)"
     - RESOURCE_GROUP="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.resource_group' -r)"
     - APP_GATEWAY_NAME="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.app_gateway_name' -r)"
