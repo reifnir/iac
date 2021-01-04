@@ -23,6 +23,7 @@ Infrastructure-as-code repo
 * install app gateway ingress controller <-- that was needlessly complicated!
   * https://docs.microsoft.com/en-us/azure/developer/terraform/create-k8s-cluster-with-aks-applicationgateway-ingress
   * Will be simpler when AGIC add-on for AKS leaves preview. By a lot.
+* Able to stand everything up and tear it down through automation
 
 ## TODO
 * setup automatic let's encrypt TLS cert updating
