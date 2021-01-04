@@ -69,5 +69,28 @@ EOF
 echo "Printing AGIC helm config..."
 cat ./.temp/helm-config.yaml
 
-echo "Installing App Gateway Ingress controller..."
-helm install default-agic -f ./.temp/helm-config.yaml application-gateway-kubernetes-ingress/ingress-azure
+echo "Checking whether AGIC is already installed..."
+INSTALLED_CHART_NAME='default-agic'
+AGIC_STATE="$(helm list -o json | jq ".[] | select(.name == \"$INSTALLED_CHART_NAME\") | .")"
+
+
+if [ -z "$AGIC_STATE" ]
+then
+  echo "App Gateway Ingress controller has never been installed. Performing first installation..."
+  helm install "$INSTALLED_CHART_NAME" -f ./.temp/helm-config.yaml application-gateway-kubernetes-ingress/ingress-azure
+else
+  INSTALLED_APP_VERSION="$(echo $AGIC_STATE | jq .app_version -r)"
+  DEPLOYABLE_APP_VERSION="$(helm search repo application-gateway-kubernetes-ingress -o json | jq '.[] | select(.name == "application-gateway-kubernetes-ingress/ingress-azure") | .app_version' -r)"
+
+  echo "application-gateway-kubernetes-ingress/ingress-azure already installed..."
+  echo "  installed app version: $INSTALLED_APP_VERSION"
+  echo "  deployable app version: $DEPLOYABLE_APP_VERSION"
+
+  if [ "$INSTALLED_APP_VERSION" != "$DEPLOYABLE_APP_VERSION" ]
+  then
+    echo "  App versions are different, so running helm upgrade..."
+    helm upgrade "$INSTALLED_CHART_NAME" application-gateway-kubernetes-ingress/ingress-azure
+  else
+    echo "  App versions are the same. Exiting script."
+  fi
+fi
