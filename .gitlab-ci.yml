@@ -121,6 +121,22 @@ install app gateway ingress controller:
 deploy test site:
   stage: deploy test site
   variables:
+  extends: .apply
+  stage: deploy test site
+  resource_group: kubernetes
+  variables:
+    TF_ROOT: ${CI_PROJECT_DIR}/azure/test-site
+    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/test-site
+    TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_PRO
+    TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-test-site
+  dependencies:
+    - plan kubernetes
+
+tear down the cluster:
+  stage: apocalypse
+  resource_group: kubernetes
+  when: manual
+  variables:
     TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
     TF_VAR_kubernetes_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
   script:
@@ -138,17 +154,3 @@ deploy test site:
     - cd ${TF_ROOT}
     - echo "Destroying kubernetes state..."
     - gitlab-terraform destroy
-
-tear down the cluster:
-  stage: apocalypse
-  resource_group: kubernetes
-  when: manual
-  variables:
-    TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
-    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
-    TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_ENTERPRISE_1
-    TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
-  script:
-    - cd ${TF_ROOT}
-    - gitlab-terraform init
-    - time terraform destroy -auto-approve
