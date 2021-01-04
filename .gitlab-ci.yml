@@ -155,7 +155,7 @@ tear down the cluster:
     - export TF_HTTP_ADDRESS=$TF_ADDRESS
     - export TF_HTTP_LOCK_ADDRESS=$TF_HTTP_ADDRESS/lock
     - export TF_HTTP_UNLOCK_ADDRESS=$TF_HTTP_ADDRESS/lock
-    - export TF_VAR_azure_subscription="$AZURE_SUB_PRO"
+    - export TF_VAR_azure_subscription="$AZURE_SUBSCRIPTION_PRO"
     - export ARM_SUBSCRIPTION_ID="$TF_VAR_azure_subscription"
     - cd ${TF_ROOT}
     - echo "Destroying test-site state..."
