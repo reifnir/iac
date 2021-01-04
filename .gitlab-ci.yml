@@ -159,12 +159,11 @@ tear down the cluster:
     - export ARM_SUBSCRIPTION_ID="$TF_VAR_azure_subscription"
     - cd ${TF_ROOT}
     - echo "Destroying test-site state..."
-    - export
-    - gitlab-terraform destroy
+    - (time gitlab-terraform destroy)
     - export TF_ROOT="${CI_PROJECT_DIR}/azure/kubernetes"
     - export TF_ADDRESS="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes"
     - export TF_VAR_azure_subscription="$AZURE_SUBSCRIPTION_ENTERPRISE_1"
     - export ARM_SUBSCRIPTION_ID="$TF_VAR_azure_subscription"
     - cd ${TF_ROOT}
     - echo "Destroying kubernetes state..."
-    - gitlab-terraform destroy
+    - (time gitlab-terraform destroy)
