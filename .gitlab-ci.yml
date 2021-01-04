@@ -97,18 +97,22 @@ install app gateway ingress controller:
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
     TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_ENTERPRISE_1
     TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
+    KUBECONFIG: $KUBE_CONFIG_ADMIN_PATH
   script:
     - apk add curl unzip jq
-    - ${CI_PROJECT_DIR}/scripts/install-alpine-terraform.sh
+    - echo "Installing kubectl..."
+    - az aks install-cli
     - cd ${TF_ROOT}
-    - ${CI_PROJECT_DIR}/scripts/terraform-output.sh
+    - ${CI_PROJECT_DIR}/scripts/install-alpine-terraform.sh
+    - ${CI_PROJECT_DIR}/scripts/setup-terraform-output.sh
     - export SUBSCRIPTION_ID="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.subscriptionId' -r)"
     - export RESOURCE_GROUP="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.resource_group' -r)"
     - export APP_GATEWAY_NAME="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.app_gateway_name' -r)"
     - export IDENTITY_RESOURCE_ID="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.identity_resource_id' -r)"
     - export IDENTITY_CLIENT_ID="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.identity_client_id' -r)"
     - ${CI_PROJECT_DIR}/scripts/install-alpine-helm-3.sh
-  
+    - ${CI_PROJECT_DIR}/scripts/install-helm-agic.sh
+
 # tear down the cluster:
 #   stage: apocalypse
 #   resource_group: kubernetes
