@@ -5,7 +5,7 @@ stages:
   # - apply kubernetes
   # - aad pod identity setup
   # - install app gateway ingress controller
-  - deploy test site
+  # - deploy test site
   - apocalypse
 
 image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
@@ -118,24 +118,24 @@ variables:
 #     - ${CI_PROJECT_DIR}/scripts/install-alpine-helm-3.sh
 #     - ${CI_PROJECT_DIR}/scripts/install-helm-agic.sh
 
-deploy test site:
-  stage: deploy test site
-  resource_group: kubernetes
-  variables:
-    TF_ROOT: ${CI_PROJECT_DIR}/azure/test-site
-    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-test-site
-    TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_PRO
-    TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
-    TF_VAR_kubernetes_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
-  script:
-    - export KUBECONFIG="$KUBE_CONFIG_ADMIN_PATH"
-    - export | grep TF_
-    - cd ${TF_ROOT}
-    - gitlab-terraform init
-    - gitlab-terraform plan
-    - gitlab-terraform apply
-  only:
-    - main
+# deploy test site:
+#   stage: deploy test site
+#   resource_group: kubernetes
+#   variables:
+#     TF_ROOT: ${CI_PROJECT_DIR}/azure/test-site
+#     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-test-site
+#     TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_PRO
+#     TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
+#     TF_VAR_kubernetes_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
+#   script:
+#     - export KUBECONFIG="$KUBE_CONFIG_ADMIN_PATH"
+#     - export | grep TF_
+#     - cd ${TF_ROOT}
+#     - gitlab-terraform init
+#     - gitlab-terraform plan
+#     - gitlab-terraform apply
+#   only:
+#     - main
 
 tear down the cluster:
   stage: apocalypse
@@ -150,12 +150,14 @@ tear down the cluster:
     - export TF_ROOT="${CI_PROJECT_DIR}/azure/test-site"
     - export TF_ADDRESS="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-test-site"
     - export TF_VAR_azure_subscription="$AZURE_SUB_PRO"
+    - export ARM_SUBSCRIPTION_ID="$TF_VAR_azure_subscription"
     - cd ${TF_ROOT}
     - echo "Destroying test-site state..."
     - gitlab-terraform destroy
     - export TF_ROOT="${CI_PROJECT_DIR}/azure/kubernetes"
     - export TF_ADDRESS="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes"
     - export TF_VAR_azure_subscription="$AZURE_SUBSCRIPTION_ENTERPRISE_1"
+    - export ARM_SUBSCRIPTION_ID="$TF_VAR_azure_subscription"
     - cd ${TF_ROOT}
     - echo "Destroying kubernetes state..."
     - gitlab-terraform destroy
