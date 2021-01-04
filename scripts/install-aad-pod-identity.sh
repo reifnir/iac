@@ -1,5 +1,13 @@
 #!/bin/bash
 set -ex
+
+# Assumes the following are installed:
+#   - kubectl
+#   - 
+#   - 
+#   - 
+#   - 
+
 # Debugging is harder than it seems it should be
 # docker run -v "$(pwd):/src" -it microsoft/azure-cli:latest
 # cd /src && apk add nano curl && curl -Lo /usr/bin/kubectl "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" && chmod +x /usr/bin/kubectl && export KUBE_CONFIG_ADMIN_PATH="/src/.temp/kube-config-admin"
@@ -33,6 +41,9 @@ echo "  MANIFEST_PATH=$MANIFEST_PATH"
 
 echo "Setting kubectl to use the kube config file located here: $KUBE_CONFIG_ADMIN_PATH"
 export KUBECONFIG=$KUBE_CONFIG_ADMIN_PATH
+
+echo "Try printing the kubeconfig..."
+cat $KUBECONFIG
 
 echo "Checking if resources have been created before..."
 EXISTING_CRD="$(kubectl get crd -o json | jq '.items[].metadata.name | select(. == "azureassignedidentities.aadpodidentity.k8s.io")')"
