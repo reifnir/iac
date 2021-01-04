@@ -98,6 +98,7 @@ install app gateway ingress controller:
     TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
   script:
     - apk add bash curl jq
+    - cd "$TF_ROOT"
     - gitlab-terraform init
     - terraform output
     - /bin/bash
