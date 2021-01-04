@@ -12,6 +12,8 @@ image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
 
 variables:
   TF_PASSWORD: ${GITLAB_TOKEN}
+  DNS_SUBSCRIPTION_ID: $AZURE_SUBSCRIPTION_PRO
+  KUBERNETES_SUBSCRIPTION_ID: $AZURE_SUBSCRIPTION_ENTERPRISE_1
 
 .plan:
   script:
