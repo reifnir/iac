@@ -5,6 +5,7 @@ stages:
   - apply kubernetes
   - aad pod identity setup
   - install app gateway ingress controller
+  - apocalypse
 
 image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
 
@@ -110,3 +111,17 @@ install app gateway ingress controller:
     - IDENTITY_CLIENT_ID="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.identity_client_id' -r)"
     - export # Debugging
     - ${CI_PROJECT_DIR}/scripts/install-alpine-helm-3.sh
+  
+tear down the cluster:
+  stage: apocalypse
+  resource_group: kubernetes
+  when: manual
+  variables:
+    TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
+    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
+    TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_ENTERPRISE_1
+    TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
+  script:
+    - cd ${TF_ROOT}
+    - gitlab-terraform init
+    - time terraform destroy -auto-approve
