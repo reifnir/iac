@@ -42,9 +42,6 @@ echo "  MANIFEST_PATH=$MANIFEST_PATH"
 echo "Setting kubectl to use the kube config file located here: $KUBE_CONFIG_ADMIN_PATH"
 export KUBECONFIG=$KUBE_CONFIG_ADMIN_PATH
 
-echo "Try printing the kubeconfig..."
-cat $KUBECONFIG
-
 echo "Checking if resources have been created before..."
 EXISTING_CRD="$(kubectl get crd -o json | jq '.items[].metadata.name | select(. == "azureassignedidentities.aadpodidentity.k8s.io")')"
 

@@ -4,7 +4,7 @@ output "cluster" {
 
 output "kube_config_admin" {
   description = "Raw output of a kube config profile with admin privileges"
-  value       = azurerm_kubernetes_cluster.aks.kube_config_raw
+  value       = azurerm_kubernetes_cluster.aks.kube_admin_config_raw
 }
 
 # Information needed in order for other modules to initialize a kubernetes provider
