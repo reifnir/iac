@@ -1,102 +1,104 @@
 stages:
-  # - plan foundation
-  # - apply foundation
-  # - plan kubernetes
-  # - apply kubernetes
-  # - aad pod identity setup
+  - plan foundation
+  - apply foundation
+  - plan kubernetes
+  - apply kubernetes
+  - aad pod identity setup
   - install app gateway ingress controller
-  # - apocalypse
+  - deploy test site
+  - apocalypse
 
 image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
 
 variables:
   TF_PASSWORD: ${GITLAB_TOKEN}
 
-# .plan:
-#   script:
-#     - cd ${TF_ROOT}
-#     - gitlab-terraform init
-#     - gitlab-terraform plan
-#     - gitlab-terraform plan-json
-#   artifacts:
-#     name: plan
-#     paths:
-#       - ${TF_ROOT}/plan.cache
-#     reports:
-#       terraform: ${TF_ROOT}/plan.json
+.plan:
+  script:
+    - cd ${TF_ROOT}
+    - gitlab-terraform init
+    - gitlab-terraform plan
+    - gitlab-terraform plan-json
+  artifacts:
+    name: plan
+    paths:
+      - ${TF_ROOT}/plan.cache
+    reports:
+      terraform: ${TF_ROOT}/plan.json
 
-# .apply:
-#   script:
-#     - export | grep TF_
-#     - cd ${TF_ROOT}
-#     - gitlab-terraform init
-#     - time gitlab-terraform apply
-#   artifacts:
-#     name: plan
-#   only:
-#     - main
+.apply:
+  script:
+    - export | grep TF_
+    - cd ${TF_ROOT}
+    - gitlab-terraform init
+    - time gitlab-terraform apply
+  artifacts:
+    name: plan
+  only:
+    - main
 
-# plan foundation:
-#   extends: .plan
-#   stage: plan foundation
-#   resource_group: foundation
-#   variables:
-#     TF_ROOT: ${CI_PROJECT_DIR}/azure/foundation
-#     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
-#     TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_PRO
+plan foundation:
+  extends: .plan
+  stage: plan foundation
+  resource_group: foundation
+  variables:
+    TF_ROOT: ${CI_PROJECT_DIR}/azure/foundation
+    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
+    TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_PRO
 
-# apply foundation:
-#   extends: .apply
-#   stage: apply foundation
-#   resource_group: foundation
-#   variables:
-#     TF_ROOT: ${CI_PROJECT_DIR}/azure/foundation
-#     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
-#     TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_PRO
-#   dependencies:
-#     - plan foundation
+apply foundation:
+  extends: .apply
+  stage: apply foundation
+  resource_group: foundation
+  variables:
+    TF_ROOT: ${CI_PROJECT_DIR}/azure/foundation
+    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
+    TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_PRO
+  dependencies:
+    - plan foundation
 
-# plan kubernetes:
-#   extends: .plan
-#   stage: plan kubernetes
-#   resource_group: kubernetes
-#   variables:
-#     TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
-#     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
-#     TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_ENTERPRISE_1
-#     TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
+plan kubernetes:
+  extends: .plan
+  stage: plan kubernetes
+  resource_group: kubernetes
+  variables:
+    TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
+    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
+    TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_ENTERPRISE_1
+    TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
 
-# apply kubernetes:
-#   extends: .apply
-#   stage: apply kubernetes
-#   resource_group: kubernetes
-#   variables:
-#     TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
-#     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
-#     TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_ENTERPRISE_1
-#     TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
-#   dependencies:
-#     - plan kubernetes
+apply kubernetes:
+  extends: .apply
+  stage: apply kubernetes
+  resource_group: kubernetes
+  variables:
+    TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
+    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
+    TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_ENTERPRISE_1
+    TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
+  dependencies:
+    - plan kubernetes
 
-# aad pod identity setup:
-#   image: microsoft/azure-cli:latest
-#   stage: aad pod identity setup
-#   resource_group: post kubernetes setup
-#   script:
-#     - set -x
-#     - echo "Installing kubectl..."
-#     - az aks install-cli
-#     - ${CI_PROJECT_DIR}/scripts/install-aad-pod-identity.sh
+aad pod identity setup:
+  image: microsoft/azure-cli:latest
+  stage: aad pod identity setup
+  resource_group: post kubernetes setup
+  script:
+    - set -x
+    - echo "Installing kubectl..."
+    - az aks install-cli
+    - ${CI_PROJECT_DIR}/scripts/install-aad-pod-identity.sh
 
 install app gateway ingress controller:
   image: microsoft/azure-cli:latest
   stage: install app gateway ingress controller
   resource_group: post kubernetes setup
   variables:
-    TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
-    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
+    TF_ROOT: ${CI_PROJECT_DIR}/azure/test-site
+    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-test-site
     TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_ENTERPRISE_1
     TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
+    TF_VAR_kubernetes_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
     
   script:
     - apk add curl unzip jq
@@ -116,16 +118,37 @@ install app gateway ingress controller:
     - ${CI_PROJECT_DIR}/scripts/install-alpine-helm-3.sh
     - ${CI_PROJECT_DIR}/scripts/install-helm-agic.sh
 
-# tear down the cluster:
-#   stage: apocalypse
-#   resource_group: kubernetes
-#   when: manual
-#   variables:
-#     TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
-#     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
-#     TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_ENTERPRISE_1
-#     TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
-#   script:
-#     - cd ${TF_ROOT}
-#     - gitlab-terraform init
-#     - time terraform destroy -auto-approve
+deploy test site:
+  stage: deploy test site
+  variables:
+    TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
+    TF_VAR_kubernetes_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
+  script:
+    # Don't do this as a YAML variable or the variable gets filled with the contents, not a path to a file containing them
+    - export KUBECONFIG="$KUBE_CONFIG_ADMIN_PATH"
+    - export TF_ROOT="${CI_PROJECT_DIR}/azure/test-site"
+    - export TF_ADDRESS="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-test-site"
+    - export TF_VAR_azure_subscription="$AZURE_SUB_PRO"
+    - cd ${TF_ROOT}
+    - echo "Destroying test-site state..."
+    - gitlab-terraform destroy
+    - export TF_ROOT="${CI_PROJECT_DIR}/azure/kubernetes"
+    - export TF_ADDRESS="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes"
+    - export TF_VAR_azure_subscription="$AZURE_SUBSCRIPTION_ENTERPRISE_1"
+    - cd ${TF_ROOT}
+    - echo "Destroying kubernetes state..."
+    - gitlab-terraform destroy
+
+tear down the cluster:
+  stage: apocalypse
+  resource_group: kubernetes
+  when: manual
+  variables:
+    TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
+    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
+    TF_VAR_azure_subscription: $AZURE_SUBSCRIPTION_ENTERPRISE_1
+    TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
+  script:
+    - cd ${TF_ROOT}
+    - gitlab-terraform init
+    - time terraform destroy -auto-approve
