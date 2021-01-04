@@ -147,8 +147,6 @@ tear down the cluster:
   script:
     # Don't do this as a YAML variable or the variable gets filled with the contents, not a path to a file containing them
     - apk add bash curl
-    - /bin/bash
-    - set -ex
     - export KUBECONFIG="$KUBE_CONFIG_ADMIN_PATH"
     - export TF_ROOT="${CI_PROJECT_DIR}/azure/test-site"
     - export TF_ADDRESS="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-test-site"
@@ -160,6 +158,10 @@ tear down the cluster:
     - cd ${TF_ROOT}
     - echo "Destroying test-site state..."
     - (time gitlab-terraform destroy)
+    - echo "Restoring TF_HTTP env variables..."
+    - unset TF_HTTP_ADDRESS
+    - unset TF_HTTP_LOCK_ADDRESS
+    - unset TF_HTTP_UNLOCK_ADDRESS
     - export TF_ROOT="${CI_PROJECT_DIR}/azure/kubernetes"
     - export TF_ADDRESS="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes"
     - export TF_VAR_azure_subscription="$AZURE_SUBSCRIPTION_ENTERPRISE_1"
