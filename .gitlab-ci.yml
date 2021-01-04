@@ -102,6 +102,8 @@ install app gateway ingress controller:
     - apk add curl unzip jq
     - echo "Installing kubectl..."
     - az aks install-cli
+    - echo "Verify able to communicate with cluster..."
+    - kubectl get nodes
     - cd ${TF_ROOT}
     - ${CI_PROJECT_DIR}/scripts/install-alpine-terraform.sh
     - ${CI_PROJECT_DIR}/scripts/setup-terraform-output.sh

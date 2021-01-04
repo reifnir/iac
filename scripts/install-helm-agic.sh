@@ -70,4 +70,4 @@ echo "Printing AGIC helm config..."
 cat ./.temp/helm-config.yaml
 
 echo "Installing App Gateway Ingress controller..."
-helm install -f helm-config.yaml application-gateway-kubernetes-ingress/ingress-azure
+helm install default-agic -f ./.temp/helm-config.yaml application-gateway-kubernetes-ingress/ingress-azure
