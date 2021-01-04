@@ -102,14 +102,11 @@ install app gateway ingress controller:
     - ${CI_PROJECT_DIR}/scripts/install-alpine-terraform.sh
     - cd ${TF_ROOT}
     - ${CI_PROJECT_DIR}/scripts/terraform-output.sh
-    - SUBSCRIPTION_ID="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.subscriptionId' -r)"
-    - RESOURCE_GROUP="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.resource_group' -r)"
-    - APP_GATEWAY_NAME="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.app_gateway_name' -r)"
-    # azurerm_user_assigned_identity.testIdentity.id
-    - IDENTITY_RESOURCE_ID="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.identity_resource_id' -r)"
-    # azurerm_user_assigned_identity.testIdentity.client_id
-    - IDENTITY_CLIENT_ID="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.identity_client_id' -r)"
-    - export # Debugging
+    - export SUBSCRIPTION_ID="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.subscriptionId' -r)"
+    - export RESOURCE_GROUP="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.resource_group' -r)"
+    - export APP_GATEWAY_NAME="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.app_gateway_name' -r)"
+    - export IDENTITY_RESOURCE_ID="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.identity_resource_id' -r)"
+    - export IDENTITY_CLIENT_ID="$(terraform output -json | jq '.app_gateway_ingress_controller_info.value.identity_client_id' -r)"
     - ${CI_PROJECT_DIR}/scripts/install-alpine-helm-3.sh
   
 # tear down the cluster:
