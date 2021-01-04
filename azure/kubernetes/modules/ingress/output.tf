@@ -11,6 +11,5 @@ output "app_gateway_ingress_controller_info" {
     app_gateway_name     = local.app_gateway_name
     identity_resource_id = var.resource_group_identity.id
     identity_client_id   = var.resource_group_identity.client_id
-    debug_entire_sp      = var.resource_group_identity
   }
 }
