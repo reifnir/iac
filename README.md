@@ -24,20 +24,22 @@ Infrastructure-as-code repo
   * https://docs.microsoft.com/en-us/azure/developer/terraform/create-k8s-cluster-with-aks-applicationgateway-ingress
   * Will be simpler when AGIC add-on for AKS leaves preview. By a lot.
 * Able to stand everything up and tear it down through automation
+* deploy a hello-world site
 
 ## TODO
 * setup automatic let's encrypt TLS cert updating
   * https://intelequia.com/blog/post/1012/automating-azure-application-gateway-ssl-certificate-renewals-with-let-s-encrypt-and-azure-automation
-* deploy a hello-world site
 * wire up ACI
 * stale resume site & wedding site
   * build helm package
   * deploy to ACI
   * deploy
   * trigger pipelines when build is complete (for when I nuke the cluster entirely)
-* deploy 
-* deploy gitlab runner pod for faster builds
+* ~~deploy gitlab runner pod for faster builds~~ (going to magic up AWS Lambda runners)
 * finally get backing up to stoic meditations podcast
+* figure out how to tag images so they aren't deleted after default retention period (7 days)
+* enable trust policy
+  * automatically backup signing keys to keyvault(?)
 
 ## Longer term
 * The app registration's password expired in 2 years, automate cycling or find alternative
