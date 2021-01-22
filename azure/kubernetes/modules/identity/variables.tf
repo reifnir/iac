@@ -17,3 +17,7 @@ variable "worker_subnet_id" {
 variable "tags" {
   description = "Tags to be applied to resources related to the swarm"
 }
+
+variable "container_registry_id" {
+  description = "Azure resource id for the Azure Container Registry from which the cluster will be pulling"
+}

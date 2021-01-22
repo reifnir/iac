@@ -9,9 +9,10 @@ module "identity" {
   source = "./modules/identity"
   name   = local.name
 
-  resource_group    = azurerm_resource_group.cluster
-  cluster_vnet_name = module.networking.cluster_vnet_name
-  worker_subnet_id  = module.networking.worker_subnet.id
+  resource_group        = azurerm_resource_group.cluster
+  cluster_vnet_name     = module.networking.cluster_vnet_name
+  worker_subnet_id      = module.networking.worker_subnet.id
+  container_registry_id = data.terraform_remote_state.foundation.outputs.container_registry_id
 
   # Terraform threw an error without this hint to wait for the RG to be created
   depends_on = [azurerm_resource_group.cluster]
