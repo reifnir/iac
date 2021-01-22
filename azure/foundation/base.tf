@@ -14,3 +14,10 @@ resource "azurerm_resource_group" "dns" {
   location = var.location
   tags     = local.tags
 }
+
+resource "azurerm_resource_group" "acr" {
+  name     = "rg-container-registry"
+  location = var.location
+  tags     = local.tags
+}
+
