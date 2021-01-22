@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Assumes the following are installed:
+#   - az cli
+#   - jq
+
 AKS_PREVIEW_INSTALLED=$(az extension list | jq '.[].name | contains("aks-preview")')
 
 if [ "$AKS_PREVIEW_INSTALLED" == "true" ]

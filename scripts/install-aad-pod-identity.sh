@@ -3,10 +3,7 @@ set -ex
 
 # Assumes the following are installed:
 #   - kubectl
-#   - 
-#   - 
-#   - 
-#   - 
+#   - jq
 
 # Debugging is harder than it seems it should be
 # docker run -v "$(pwd):/src" -it microsoft/azure-cli:latest
