@@ -35,3 +35,10 @@ resource "azurerm_role_assignment" "cluster_sp_contributor" {
     # }
   }
 }
+
+resource "azurerm_role_assignment" "acrpull_role" {
+  scope                            = data.terraform_remote_state.foundation.outputs.dns_zone_reifnir_com
+  role_definition_name             = "AcrPull"
+  principal_id                     = azuread_service_principal.cluster_sp.id
+  skip_service_principal_aad_check = true
+}
