@@ -9,15 +9,6 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "dns" {
-  name     = "rg-dns-zones"
-  location = var.location
-  tags     = local.tags
+provider "gitlab" {
+  # Instead of setting "token" explicitly, let it load from the GITLAB_TOKEN environment variable
 }
-
-resource "azurerm_resource_group" "acr" {
-  name     = "rg-container-registry"
-  location = var.location
-  tags     = local.tags
-}
-
