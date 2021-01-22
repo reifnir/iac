@@ -1,1 +1,0 @@
-az feature register --name AKS-IngressApplicationGatewayAddon --namespace Microsoft.ContainerService

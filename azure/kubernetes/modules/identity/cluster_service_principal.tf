@@ -1,5 +1,5 @@
 resource "azuread_application" "cluster_sp" {
-  name                       = local.cluster_service_principal_name
+  display_name               = local.cluster_service_principal_name
   available_to_other_tenants = false
 }
 
@@ -37,7 +37,7 @@ resource "azurerm_role_assignment" "cluster_sp_contributor" {
 }
 
 resource "azurerm_role_assignment" "acrpull_role" {
-  scope                            = data.terraform_remote_state.foundation.outputs.dns_zone_reifnir_com
+  scope                            = data.terraform_remote_state.foundation.outputs.container_registry_id
   role_definition_name             = "AcrPull"
   principal_id                     = azuread_service_principal.cluster_sp.id
   skip_service_principal_aad_check = true
