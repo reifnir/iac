@@ -19,7 +19,7 @@ output "app_gateway_ingress_controller_info" {
 #   value       = module.aks.cluster
 # }
 
-# data.terraform_remote_state.foundation.outputs.dns_zone_reifnir_com <-- what I want
+# data.terraform_remote_state.foundation.outputs.dns_zone_reifnir_com_id <-- what I want
 # output "debug" {
 #   value = 
 # }
