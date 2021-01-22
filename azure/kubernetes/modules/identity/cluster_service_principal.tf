@@ -27,12 +27,6 @@ resource "azurerm_role_assignment" "cluster_sp_contributor" {
   // Waiting for AAD global replication
   provisioner "local-exec" {
     command = "echo 'It takes longer than it should for the contributor permissions to propagate, so wait 60s...' && sleep 60s"
-    # Assumes bash is already installed and running on alpine linux
-    # interpreter = ["/bin/bash", "-e"]
-    # command     = "${path.module}/../../../../scripts/wait-for-service-principal-contributor-role-to-propagate.sh"
-    # environment = {
-    #   SP_OBJECT_ID = azuread_service_principal.cluster_sp.id
-    # }
   }
 }
 
