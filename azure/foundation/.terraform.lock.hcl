@@ -1,6 +1,24 @@
 # This file is maintained automatically by "terraform init".
 # Manual edits may be lost in future updates.
 
+provider "registry.terraform.io/gitlabhq/gitlab" {
+  version = "3.4.0"
+  hashes = [
+    "h1:NM/bIhhme6ESzmmwYrC3IFkZwyAmfZcTSyxAMc+tPRw=",
+    "zh:39f6ebbede3358a8d4ae9e972bf83a553162b42c8d33b4b265f4dfc3686fe4f2",
+    "zh:53ff8e61e20d6a0f7a9346ca90e4a10bc4abf1e8bb1e61c68c4ba28a8e051c75",
+    "zh:74bc7965f75fce6fcaa5608580e2d6b0a739d2370a4558cadd2ec91774e26cb6",
+    "zh:8e291615e864bf828be37a2ed9c09d9ba226b1c39057c80bd12b90ed94510643",
+    "zh:a0dffaa3367c47117210e0e779e4b7b48d31d8c985c7b627d25722b965a08c3f",
+    "zh:a48dea4786f607f6f7528da7f4975dbd536852d0f13666d5116185d13da5f7b2",
+    "zh:a736b5ac044ef964f0bfac55e3146522e7b5633001f4d159adaf364729756575",
+    "zh:b8fce08e46488c95feadf1cf4db7c1e880827d1489a12928776e920630152f22",
+    "zh:bf76d559d1b1309d96615e6e64ddc6662cf12b76961ad14c4dab7485c0d9504e",
+    "zh:c896ff1c74e1beca4199df37ad9249b9a6df9d148babe459ae85f77961d63b56",
+    "zh:ee4d41a4e47a0ff8b19f18ae11356a9dd18362c0ae9698bf43b77841819088dc",
+  ]
+}
+
 provider "registry.terraform.io/hashicorp/azurerm" {
   version = "2.44.0"
   hashes = [

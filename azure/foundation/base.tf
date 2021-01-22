@@ -2,6 +2,11 @@ terraform {
   backend "http" {
     # Relies on environment variables for configuration
   }
+  required_providers {
+    gitlab = {
+      source  = "gitlabhq/gitlab"
+    }
+  }
 }
 
 provider "azurerm" {
