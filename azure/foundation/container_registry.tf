@@ -10,5 +10,6 @@ resource "azurerm_container_registry" "reifnir" {
   location            = azurerm_resource_group.acr.location
   sku                 = "Basic"
   admin_enabled       = false
-  tags                = local.tags
+
+  tags = local.tags
 }
