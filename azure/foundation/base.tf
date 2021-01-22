@@ -4,7 +4,7 @@ terraform {
   }
   required_providers {
     gitlab = {
-      source  = "gitlabhq/gitlab"
+      source = "gitlabhq/gitlab"
     }
   }
 }
