@@ -71,6 +71,7 @@ apply kubernetes:
   extends: .apply
   stage: apply kubernetes
   resource_group: kubernetes
+  when: manual
   variables:
     TF_ROOT: ${CI_PROJECT_DIR}/azure/kubernetes
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
