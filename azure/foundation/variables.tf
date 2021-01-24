@@ -7,6 +7,6 @@ variable "azure_subscription" {
   description = "Azure Subscription GUID where all resources will reside"
 }
 
-variable "group_id" {
+variable "gitlab_group_id" {
   description = "Group ID that GitLab variables will be saved to"
 }

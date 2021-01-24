@@ -15,7 +15,7 @@ resource "azurerm_container_registry" "reifnir" {
 }
 
 data "gitlab_group" "all_projects" {
-  group_id = var.group_id
+  group_id = var.gitlab_group_id
 }
 
 resource "gitlab_group_variable" "AZURE_CONTAINER_REGISTRY_ID" {
