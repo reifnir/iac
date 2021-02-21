@@ -42,3 +42,12 @@ resource "azurerm_dns_mx_record" "google_apps" {
 
   tags = local.tags
 }
+
+resource "gitlab_group_variable" "AZURE_DNS_ZONE_ID_REIFNIR_COM" {
+  group         = data.gitlab_group.all_projects.id
+  key           = "AZURE_DNS_ZONE_ID_REIFNIR_COM"
+  variable_type = "env_var"
+  value         = azurerm_dns_zone.reifnir_com.id
+  protected     = false
+  masked        = false
+}
