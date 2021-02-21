@@ -15,6 +15,8 @@ variables:
 
 .plan:
   script:
+    - echo "Getting current version of AKS in $TF_VAR_location ..."
+    - TF_VAR_kubernetes_version="$(az aks get-versions --location "$TF_VAR_location" | jq '.orchestrators | reverse | .[0].orchestratorVersion' -r)"
     - cd ${TF_ROOT}
     - gitlab-terraform init
     - gitlab-terraform plan
@@ -28,7 +30,8 @@ variables:
 
 .apply:
   script:
-    - export | grep TF_
+    - echo "Getting current version of AKS in $TF_VAR_location ..."
+    - TF_VAR_kubernetes_version="$(az aks get-versions --location "$TF_VAR_location" | jq '.orchestrators | reverse | .[0].orchestratorVersion' -r)"
     - cd ${TF_ROOT}
     - gitlab-terraform init
     - time gitlab-terraform apply
@@ -128,7 +131,7 @@ deploy test site:
     TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
     TF_VAR_kubernetes_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-kubernetes
   script:
-    - export KUBECONFIG="$KUBE_CONFIG_ADMIN_PATH"
+    - export TF_VAR_kube_config_path="$KUBE_CONFIG_ADMIN_PATH"
     - export | grep TF_
     - cd ${TF_ROOT}
     - gitlab-terraform init

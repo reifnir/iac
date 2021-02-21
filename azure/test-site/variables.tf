@@ -9,3 +9,7 @@ variable "foundation_state_address" {
 variable "kubernetes_state_address" {
   description = "URL where the kubernetes terraform backend can be found"
 }
+
+variable "kube_config_path" {
+  description = "Path to where the desired KUBECONFIG file can be located"
+}
