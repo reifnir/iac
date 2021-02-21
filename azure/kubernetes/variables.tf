@@ -1,6 +1,5 @@
 variable "kubernetes_version" {
   description = "The version of Kubernetes the cluster will be deployed with. Note: Terraform may replace the cluster if the version changes, so consider upgrading that outside of TF. In order to find available cluster versions, run: `az aks get-versions --location [location]`"
-  default     = "1.20.2"
 }
 
 variable "aks_admin_username" {
@@ -17,7 +16,6 @@ variable "gitlab_group_id" {
 
 variable "location" {
   description = "The default Azure Region"
-  default     = "East US"
 }
 
 variable "foundation_state_address" {
