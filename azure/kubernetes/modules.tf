@@ -28,7 +28,7 @@ module "aks" {
   admin_object_ids = var.cluster_admin_object_ids
 
   # Cluster config
-  aks_cluster_version = "1.19.3"
+  aks_cluster_version = var.kubernetes_version
   # Having only one node isn't a great idea, but trying to keep costs under $150. This is the cheapest option for now
   # aks_node_count   = 1
   # aks_vm_node_size = "Standard_B2s"
