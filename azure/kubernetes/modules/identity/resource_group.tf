@@ -4,7 +4,6 @@ resource "azurerm_user_assigned_identity" "cluster_rg" {
   location            = var.resource_group.location
 
   name = "rg-identity-${var.name}"
-
   tags = var.tags
 }
 
