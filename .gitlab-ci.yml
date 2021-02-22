@@ -45,6 +45,8 @@ find latest aks k8s version:
   image: microsoft/azure-cli:latest
   script:
     - mkdir -p ${CI_PROJECT_DIR}/.vars
+    - echo "Logging into Azure..."
+    - az login --service-principal -u "$ARM_CLIENT_ID" -p "$ARM_CLIENT_SECRET" --tenant "$ARM_TENANT_ID"
     - echo "Getting current version of AKS in $TF_VAR_location ..."
     - TF_VAR_kubernetes_version="$(az aks get-versions --location "$TF_VAR_location" | jq '.orchestrators | reverse | .[0].orchestratorVersion' -r)"
     - echo "TF_VAR_kubernetes_version=$TF_VAR_kubernetes_version"
