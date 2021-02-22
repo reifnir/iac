@@ -27,6 +27,7 @@ Infrastructure-as-code repo
 * deploy a hello-world site
 
 ## TODO
+* FIX: when re-applying the TF script, it appears that rules related to AGIC are removed
 * setup automatic let's encrypt TLS cert updating
   * https://intelequia.com/blog/post/1012/automating-azure-application-gateway-ssl-certificate-renewals-with-let-s-encrypt-and-azure-automation
 * wire up ACI
