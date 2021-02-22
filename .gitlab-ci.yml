@@ -1,4 +1,5 @@
 stages:
+  - preparation
   - plan foundation
   - apply foundation
   - plan kubernetes
@@ -12,11 +13,11 @@ image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
 
 variables:
   TF_PASSWORD: ${GITLAB_TOKEN}
+  RUNTIME_VAR_PATH: ${CI_PROJECT_DIR}/.vars/.env
 
 .plan:
   script:
-    - echo "Getting current version of AKS in $TF_VAR_location ..."
-    - TF_VAR_kubernetes_version="$(az aks get-versions --location "$TF_VAR_location" | jq '.orchestrators | reverse | .[0].orchestratorVersion' -r)"
+    - source "$RUNTIME_VAR_PATH"
     - cd ${TF_ROOT}
     - gitlab-terraform init
     - gitlab-terraform plan
@@ -30,8 +31,7 @@ variables:
 
 .apply:
   script:
-    - echo "Getting current version of AKS in $TF_VAR_location ..."
-    - TF_VAR_kubernetes_version="$(az aks get-versions --location "$TF_VAR_location" | jq '.orchestrators | reverse | .[0].orchestratorVersion' -r)"
+    - source "$RUNTIME_VAR_PATH"
     - cd ${TF_ROOT}
     - gitlab-terraform init
     - time gitlab-terraform apply
@@ -39,6 +39,19 @@ variables:
     name: plan
   only:
     - main
+
+find latest aks k8s version:
+  stage: preparation
+  image: microsoft/azure-cli:latest
+  script:
+    - mkdir -p ${CI_PROJECT_DIR}/.vars
+    - echo "Getting current version of AKS in $TF_VAR_location ..."
+    - TF_VAR_kubernetes_version="$(az aks get-versions --location "$TF_VAR_location" | jq '.orchestrators | reverse | .[0].orchestratorVersion' -r)"
+    - echo "TF_VAR_kubernetes_version=$TF_VAR_kubernetes_version"
+    - echo "Saving value of TF_VAR_kubernetes_version to $RUNTIME_VAR_PATH..."
+    - echo "export TF_VAR_kubernetes_version=\"$TF_VAR_kubernetes_version\"" > "$RUNTIME_VAR_PATH"
+  artifacts:
+    name: plan
 
 plan foundation:
   extends: .plan
