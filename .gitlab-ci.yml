@@ -28,10 +28,11 @@ variables:
       - ${TF_ROOT}/plan.cache
     reports:
       terraform: ${TF_ROOT}/plan.json
+  dependencies:
+    - find latest aks k8s version
 
 .apply:
   script:
-    - source "$RUNTIME_VAR_PATH"
     - cd ${TF_ROOT}
     - gitlab-terraform init
     - time gitlab-terraform apply
@@ -100,6 +101,7 @@ apply kubernetes:
     TF_VAR_foundation_state_address: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/azure-foundation
   dependencies:
     - plan kubernetes
+    
 
 aad pod identity setup:
   image: microsoft/azure-cli:latest
