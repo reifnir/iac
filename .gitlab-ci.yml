@@ -53,7 +53,9 @@ find latest aks k8s version:
     - echo "Saving value of TF_VAR_kubernetes_version to $RUNTIME_VAR_PATH..."
     - echo "export TF_VAR_kubernetes_version=\"$TF_VAR_kubernetes_version\"" > "$RUNTIME_VAR_PATH"
   artifacts:
-    name: "$RUNTIME_VAR_PATH"
+    name: ".env"
+    paths:
+      - "$RUNTIME_VAR_PATH"
 
 plan foundation:
   extends: .plan
