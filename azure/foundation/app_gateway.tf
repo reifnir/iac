@@ -19,7 +19,7 @@ resource "azurerm_resource_group" "ag" {
 resource "azurerm_subnet" "ag" {
   name                 = "appgateway"
   virtual_network_name = azurerm_virtual_network.shared.name
-  resource_group_name  = azurerm_virtual_network.shared.resource_group_name
+  resource_group_name  = azurerm_resource_group.ag.name
   address_prefixes     = ["10.1.250.0/24"]
 }
 
