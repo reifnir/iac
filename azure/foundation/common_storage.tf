@@ -17,7 +17,7 @@ resource "azurerm_storage_account" "common" {
   tags = local.tags
 }
 
- resource "azurerm_storage_container" "terraform_state" {
-     name                    = "terraform-state"
-     storage_account_name    = "sareifnircommonstorage" 
-  }
+resource "azurerm_storage_container" "terraform_state" {
+  name                 = "terraform-state"
+  storage_account_name = "sareifnircommonstorage"
+}
